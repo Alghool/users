@@ -1,0 +1,34 @@
+@extends('layouts.app')
+
+@section('content')
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('list Users') }}</div>
+
+                    <div class="card-body">
+                        <ul>
+                            @foreach($users as $user)
+                                <li>{{$user->Group->name}}: {{$user->name}}
+                                    @can('edit_user')
+                                        <span><a href="{{ route('user.edit', $user->id) }}"><i class=""></i>{{ __('edit')}}</a></span>
+                                    @endcan
+                                    @can('remove_user')
+                                        <form action="{{ route('user.destroy', $user->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" >{{ __('delete')  }}</button>
+                                        </form>
+                                    @endcan
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
